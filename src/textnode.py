@@ -58,8 +58,8 @@ def split_nodes_delimiter(old_nodes: list[TextNode], delimiter: str, text_type: 
         if node.text_type != TextType.TEXT:
             new_nodes.append(node)
             continue
+        # This assumes that we're using standard markdown delimiters, will not work for generic delimiters
         parts = re.split(rf'(?<!{re.escape(delimiter[-1])}){re.escape(delimiter)}(?!{re.escape(delimiter[0])})', node.text)
-        print(parts)
         if len(parts) != 1 and len(parts) % 2 == 0:
             raise ValueError("Unclosed delimiter")
         for i, part in enumerate(parts):
@@ -77,4 +77,3 @@ def extract_markdown_images(text: str) -> list[tuple[str]]:
 
 def extract_markdown_links(text: str) -> list[tuple[str]]:
     return re.findall(r"[^!]\[(.*?)\]\((.+?)\)", text)
-    
